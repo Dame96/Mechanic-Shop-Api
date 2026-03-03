@@ -1,5 +1,6 @@
 from app.extensions import ma
 from app.models import Service_Ticket
+from marshmallow import fields 
 
 class Service_TicketSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
@@ -8,5 +9,13 @@ class Service_TicketSchema(ma.SQLAlchemyAutoSchema):
         # By default, SQLAlchemyAutoSchema: does NOT include foreign keys unless you specify include_fk = True. This ensures the customer_id field is handled corrected during validation/serialization. 
         
 
+class EditServiceTicketSchema(ma.Schema):
+    add_mechanic_ids = fields.List(fields.Int(), required=True)
+    remove_mechanic_ids = fields.List(fields.Int(), required=True)
+    class Meta:
+        fields = ("add_mechanic_ids", "remove_mechanic_ids")
+
 service_ticket_schema = Service_TicketSchema()
 service_tickets_schema = Service_TicketSchema(many=True)
+return_service_tickets_schema = Service_TicketSchema(exclude=["customer_id"])
+edit_service_tickets_schema = EditServiceTicketSchema()

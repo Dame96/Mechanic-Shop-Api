@@ -9,6 +9,8 @@ This API allows you to manage:
 * Mechanics
 * Service Tickets
 * Mechanic ↔ Service Ticket assignments (Many-to-Many relationship)
+* Inventory ↔ Service Ticket assignments (Many-to-Many relationship)
+
 
 ---
 
@@ -89,6 +91,7 @@ Junction Table
 * ticket_id
 * mechanic_id
 
+& more...
 ---
 
 Setup Instructions
