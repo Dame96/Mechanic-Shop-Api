@@ -49,7 +49,7 @@ jobs: # defines the jobs that make up the workflow
         - name: Create virtual environment
           run: |
             python -m venv venv
-            source/bin/activate
+            source venv/bin/activate
 
         - name: Install dependencies
           run: |
@@ -60,4 +60,3 @@ jobs: # defines the jobs that make up the workflow
           run: python -m unittest discover -s tests -p 'test_*.py'
 
 
-          
