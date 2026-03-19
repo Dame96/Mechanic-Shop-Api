@@ -40,47 +40,7 @@ Application Factory Pattern
 
 Blueprint Architecture
 
-Project Structure
-mechanic_shop_api/
-│
-├── app/
-│   ├── __init__.py
-│   ├── models.py
-│   │
-│   ├── utils/
-│   │   ├── __init__.py
-│   │   └── util.py        # contains encode_token function
-│   │
-│   ├── customer/
-│   │   ├── __init__.py
-│   │   ├── routes.py     # includes register/login with JWT
-│   │   └── schemas.py
-│   │
-│   ├── mechanic/
-│   │   ├── __init__.py
-│   │   ├── routes.py
-│   │   └── schemas.py
-│   │
-│   ├── service_ticket/
-│   │   ├── __init__.py
-│   │   ├── routes.py
-│   │   └── schemas.py
-│   │
-│   ├── inventory/
-│   │   ├── __init__.py
-│   │   ├── routes.py
-│   │   └── schemas.py
-│
-├── tests/
-│   ├── __init__.py
-│   ├── test_customers.py
-│   ├── test_mechanics.py
-│   ├── test_service_tickets.py
-│   └── test_inventory.py
-│
-├── config.py
-├── run.py
-└── requirements.txt
+
 DATABASE MODELS:
 
 Customer:
