@@ -1,42 +1,59 @@
-# Mechanic-Shop-Api
+MECHANIC SHOP-API
 
-
-A RESTful API built with Flask, SQLAlchemy, Marshmallow, and the Application Factory Pattern** to manage a mechanic shop system.
+A RESTful API built with Flask, SQLAlchemy, Marshmallow, and the Application Factory Pattern to manage a mechanic shop system.
 
 This API allows you to manage:
 
-* Customers
-* Mechanics
-* Service Tickets
-* Mechanic ↔ Service Ticket assignments (Many-to-Many relationship)
-* Inventory ↔ Service Ticket assignments (Many-to-Many relationship)
+CUSTOMERS:
 
+MECHANICS: 
 
----
+SERVICE TICKETS:
 
-Tech Stack
+Mechanic ↔ Service Ticket assignments (Many-to-Many relationship)
 
-* Flask
-* Flask-SQLAlchemy
-* SQLAlchemy (DeclarativeBase)
-* Flask-Marshmallow
-* Application Factory Pattern
-* Blueprint Architecture
+Inventory ↔ Service Ticket assignments (Many-to-Many relationship)
 
----
+Authenticated customer access using JWT
+
+TECH STACK:
+
+Flask
+
+Flask-SQLAlchemy
+
+SQLAlchemy (DeclarativeBase)
+
+Flask-Marshmallow
+
+Swagger UI (API documentation and interactive testing)
+
+unittest (Python standard library for testing)
+
+Flask-JWT-Extended (JWT authentication)
+
+Flask-Caching (performance optimization)
+
+Flask-Limiter (rate limiting and abuse protection)
+
+Application Factory Pattern
+
+Blueprint Architecture
 
 Project Structure
-
-```
 mechanic_shop_api/
 │
 ├── app/
 │   ├── __init__.py
 │   ├── models.py
 │   │
+│   ├── utils/
+│   │   ├── __init__.py
+│   │   └── util.py        # contains encode_token function
+│   │
 │   ├── customer/
 │   │   ├── __init__.py
-│   │   ├── routes.py
+│   │   ├── routes.py     # includes register/login with JWT
 │   │   └── schemas.py
 │   │
 │   ├── mechanic/
@@ -48,306 +65,319 @@ mechanic_shop_api/
 │   │   ├── __init__.py
 │   │   ├── routes.py
 │   │   └── schemas.py
+│   │
+│   ├── inventory/
+│   │   ├── __init__.py
+│   │   ├── routes.py
+│   │   └── schemas.py
+│
+├── tests/
+│   ├── __init__.py
+│   ├── test_customers.py
+│   ├── test_mechanics.py
+│   ├── test_service_tickets.py
+│   └── test_inventory.py
 │
 ├── config.py
 ├── run.py
 └── requirements.txt
-```
+DATABASE MODELS:
 
----
+Customer:
 
-Database Models
+id (Primary Key)
 
-Customer
+name
 
-* id (Primary Key)
-* name
-* email
-* phone
-* One-to-Many → Service Tickets
+email
 
-Mechanic
+phone
 
-* id (Primary Key)
-* name
-* email
-* phone
-* salary
-* Many-to-Many → Service Tickets
+password (hashed)
 
-Service Ticket
+One-to-Many → Service Tickets
 
-* id (Primary Key)
-* vin
-* service_date
-* service_desc
-* customer_id (Foreign Key)
-* Many-to-Many → Mechanics
+Mechanic:
 
-Junction Table
+id (Primary Key)
 
-`service_mechanics`
+name
 
-* ticket_id
-* mechanic_id
+email
 
-& more...
----
+phone
+
+salary
+
+Many-to-Many → Service Tickets
+
+Service Ticket:
+
+id (Primary Key)
+
+vin
+
+service_date
+
+service_desc
+
+customer_id (Foreign Key)
+
+Many-to-Many → Mechanics
+
+Many-to-Many → Inventory
+
+Inventory:
+
+id (Primary Key)
+
+name
+
+description
+
+price
+
+quantity
+
+Many-to-Many → Service Tickets
+
+Junction Tables:
+
+service_mechanics
+
+ticket_id (Foreign Key)
+
+mechanic_id (Foreign Key)
+
+service_inventory
+
+ticket_id (Foreign Key)
+
+inventory_id (Foreign Key)
 
 Setup Instructions
-
 Clone the Repository
-
-```bash
 git clone https://github.com/your-username/mechanic-shop-api.git
 cd mechanic-shop-api
-```
+Create Virtual Environment:
 
----
+Mac / Linux:
 
-Create Virtual Environment
-
-Mac / Linux
-
-```bash
 python3 -m venv venv
 source venv/bin/activate
-```
 
-Windows
+Windows:
 
-```bash
 python -m venv venv
 venv\Scripts\activate
-```
-
----
-
 Install Dependencies
-
-```bash
 pip install -r requirements.txt
-```
 
 If you don't have a requirements file yet:
 
-```bash
-pip install flask flask-sqlalchemy flask-marshmallow marshmallow-sqlalchemy
-```
+pip install flask flask-sqlalchemy flask-marshmallow marshmallow-sqlalchemy flask-jwt-extended flask-caching flask-limiter
 
 Then generate it:
 
-```bash
 pip freeze > requirements.txt
-```
-
----
-
 Configure Environment Variables
 
-Create a `.env` file or configure inside `config.py`:
+Create a .env file or configure inside config.py:
 
-```python
 SQLALCHEMY_DATABASE_URI = "sqlite:///mechanic_shop.db"
 SQLALCHEMY_TRACK_MODIFICATIONS = False
-```
 
----
+# JWT
+JWT_SECRET_KEY = "your-secret-key"
 
+# Caching (simple example)
+CACHE_TYPE = "SimpleCache"
+CACHE_DEFAULT_TIMEOUT = 300
 Initialize the Database
-
-If using Flask shell:
-
-```bash
 flask shell
-```
-
-```python
 from app import create_app
 from app.models import db
 
 app = create_app()
 app.app_context().push()
 db.create_all()
-```
-
----
-
 Run the Application
-
-```bash
 flask run
-```
 
 OR
 
-```bash
 python run.py
-```
 
 Server will run at:
 
-```
 http://127.0.0.1:5000
-```
+API Documentation (Swagger UI)
 
----
+Swagger UI has been integrated to provide interactive API documentation.
+
+Access it at:
+
+http://127.0.0.1:5000/swagger
+Authentication (JWT)
+
+JWT authentication is implemented for protected routes such as customer registration and login.
+
+Tokens are generated using the encode_token function located in:
+
+app/utils/util.py
+
+After login, include the token in requests:
+
+Authorization: Bearer <your_token>
+Caching
+
+Caching is implemented using Flask-Caching to improve performance on frequently accessed endpoints.
+
+Reduces database load
+
+Speeds up repeated requests
+
+Configurable via config.py
+
+Rate Limiting
+
+Rate limiting is implemented using Flask-Limiter to prevent abuse and ensure API stability.
+
+Limits repeated requests from the same client
+
+Protects endpoints from being overwhelmed
+
+Configurable per route or globally
 
 API Endpoints
-
----
-
 Mechanic Routes
 
-URL Prefix:** `/mechanics`
+URL Prefix: /mechanics
 
-Create Mechanic
+POST /
 
-```
-POST /mechanics/
-```
+GET /
 
-Body Example:**
+PUT /<int:id>
 
-```json
-{
-  "name": "John Doe",
-  "email": "john@email.com",
-  "phone": "5551234567",
-  "salary": 60000
-}
-```
-
----
-
-Get All Mechanics
-
-```
-GET /mechanics/
-```
-
----
-
-Update Mechanic
-
-```
-PUT /mechanics/<int:id>
-```
-
----
-
-Delete Mechanic
-
-```
-DELETE /mechanics/<int:id>
-```
-
----
+DELETE /<int:id>
 
 Service Ticket Routes
 
-URL Prefix:** `/service-tickets`
+URL Prefix: /service-tickets
 
----
+POST /
 
-Create Service Ticket
+GET /
 
-```
-POST /service-tickets/
-```
+PUT /assign-mechanic/<mechanic_id>
 
-Body Example:**
+PUT /remove-mechanic/<mechanic_id>
 
-```json
-{
-  "vin": "1HGCM82633A123456",
-  "service_date": "2026-02-24",
-  "service_desc": "Oil Change",
-  "customer_id": 1
-}
-```
+PUT /add-inventory/<inventory_id>
 
----
-
-Assign Mechanic to Service Ticket
-
-```
-PUT /service-tickets/<ticket_id>/assign-mechanic/<mechanic_id>
-```
-
----
-
-Remove Mechanic from Service Ticket
-
-```
-PUT /service-tickets/<ticket_id>/remove-mechanic/<mechanic_id>
-```
-
----
-
-Get All Service Tickets
-
-```
-GET /service-tickets/
-```
-
----
+PUT /remove-inventory/<inventory_id>
 
 Customer Routes
 
-URL Prefix:** `/customers`
+URL Prefix: /customers
 
-(Previously implemented)
+POST /register
 
-* POST `/`
-* GET `/`
-* PUT `/<int:id>`
-* DELETE `/<int:id>`
+POST /login
 
----
+GET /
 
- Key Concepts Implemented
+PUT /<int:id>
 
+DELETE /<int:id>
+
+Inventory Routes
+
+URL Prefix: /inventory
+
+POST /
+
+GET /
+
+PUT /<int:id>
+
+DELETE /<int:id>
+
+Key Concepts Implemented
 Application Factory Pattern
 
-* App created using `create_app()`
-* Blueprints registered inside `app/__init__.py`
+App created using create_app()
+
+Blueprints registered in app/__init__.py
 
 Blueprint Architecture
 
-Each resource has:
+Each resource contains:
 
-* `__init__.py`
-* `routes.py`
-* `schemas.py`
+routes.py
+
+schemas.py
 
 SQLAlchemy Relationships
 
-* One-to-Many (Customer → Service Tickets)
-* Many-to-Many (Mechanics ↔ Service Tickets)
-* Junction table: `service_mechanics`
+One-to-Many (Customer → Service Tickets)
 
-Marshmallow Auto Schemas
+Many-to-Many (Mechanics ↔ Service Tickets)
 
-* Used `SQLAlchemyAutoSchema`
-* Handles serialization and validation
+Many-to-Many (Inventory ↔ Service Tickets)
 
----
+Authentication
 
+JWT-based authentication
+
+Token generation via encode_token
+
+Protected routes using JWT
+
+Performance Optimization
+
+Flask-Caching for improved response times
+
+Reduced redundant database queries
+
+API Protection
+
+Flask-Limiter for rate limiting
+
+Prevents excessive or abusive requests
+
+Marshmallow Schemas
+
+SQLAlchemyAutoSchema used
+
+Handles serialization and validation
+
+Testing
+
+Testing is implemented using Python’s built-in unittest module.
+
+Tests are located in:
+
+tests/
+
+Run tests with:
+
+python -m unittest discover tests
 Testing the API
 
-Use:
+You can test the API using:
 
-* Postman
-* Thunder Client (VS Code)
-* curl
-* Insomnia
+Swagger UI (recommended)
+
+Postman
+
+Thunder Client
+
+curl
+
+Insomnia
 
 Example:
 
-```bash
 curl http://127.0.0.1:5000/mechanics/
-```
-
-
-

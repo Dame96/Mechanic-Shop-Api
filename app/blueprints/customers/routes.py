@@ -67,7 +67,7 @@ def create_customer():
 # when this request is received a function to retrieve and return all Customers will fire. 
 
 @customers_bp.route("/", methods=['GET'])
-# @cache.cached(timeout=60)
+@cache.cached(timeout=60)
 def get_customers():
     
     try:

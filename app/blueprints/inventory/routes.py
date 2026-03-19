@@ -40,7 +40,7 @@ def get_inventory():
         return inventorys_schema.jsonify(parts), 200
     
 
-#== Update specific product based on ID passed in ==# 
+#== Update specific a part of inventory based on ID passed in ==# 
 
 @inventory_bp.route("/<int:inventory_id>", methods=['PUT'])
 def update_inventory(inventory_id):
@@ -61,10 +61,6 @@ def update_inventory(inventory_id):
     db.session.commit()
     return inventory_schema.jsonify(inventory), 200
         
-
-
-
-
 
 
 #== Delete a part from the inventory table using id in route ==#

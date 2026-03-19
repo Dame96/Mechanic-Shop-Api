@@ -36,7 +36,7 @@ def get_service_tickets():
     return service_tickets_schema.jsonify(service_tickets), 200
 
 
-#== Assinging part to a service ticket ==#
+#== Assinging a part of inventory to a service ticket ==#
 
 @service_ticket_bp.route("/<int:service_ticket_id>/assign-inventory/<int:inventory_id>", methods=['PUT'])
 def assign_inventory(service_ticket_id, inventory_id):
@@ -122,7 +122,6 @@ def edit_service_ticket(service_ticket_id):
 #== Remove mechanic from service ticket ===#
 
 @service_ticket_bp.route("/<int:service_ticket_id>/remove-mechanic/<int:mechanic_id>", methods=['PUT'])
-@token_required
 def remove_mechanic(service_ticket_id, mechanic_id):
     
     service_ticket = db.session.get(Service_Ticket, service_ticket_id)
