@@ -5,6 +5,7 @@ info:
   description: "This is an API for a mechanic shop to manage all neccesary info for operation." 
   version: "1.0.0"
 host: "mechanic-shop-api-4qa1.onrender.com" # hosted live on render
+basePath: "/"
 schemes:
   - "https"
 consumes:
