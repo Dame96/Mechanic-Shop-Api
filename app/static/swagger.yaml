@@ -4,9 +4,9 @@ info:
   title: "Mechanic Shop API" 
   description: "This is an API for a mechanic shop to manage all neccesary info for operation." 
   version: "1.0.0"
-host: "127.0.0.1:5000" #working on local host
+host: "mechanic-shop-api-4qa1.onrender.com" # hosted live on render
 schemes:
-  - "http"
+  - "https"
 consumes:
   - "application/json"
 produces:
