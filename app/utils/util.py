@@ -3,8 +3,9 @@ from jose import jwt
 import jose
 from functools import wraps
 from flask import request, jsonify
+import os 
 
-SECRET_KEY = "a super secret, secret key" #secret keys are used to sign tokens, encode and decode the tokens
+SECRET_KEY = os.environ.get('SECRET_KEY') or "super secret secrets" #secret keys are used to sign tokens, encode and decode the tokens
 
 
 def token_required(f):
