@@ -6,8 +6,9 @@ info:
   version: "1.0.0"
 host: "mechanic-shop-api-4qa1.onrender.com" # hosted live on render
 basePath: "/"
-schemes:
-  - "https"
+
+x-forwarded-proto: https
+
 consumes:
   - "application/json"
 produces:
