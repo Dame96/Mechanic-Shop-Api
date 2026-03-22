@@ -256,7 +256,7 @@ paths:
         201:
           description: "Successful Mechanic Creation."
           schema:
-            $ref: "#defintions/CreateMechanicResponse"
+            $ref: "#definitions/CreateMechanicResponse"
           examples:
             application/json:
               id: 1
